@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 import rospy
 import sys
+import os 
 import random
 import xml.etree.ElementTree as ET
 from randommap.srv import *
 
 
-def randommapcallback(probability):    
+def randommapcallback(prob):    
     #RNG init
     seed = random.randrange(sys.maxsize)
     random.seed(a=seed) # TODO: add something to send a seed for testing
 
     #get xml handling started
-    inputxml = "/home/jason/252_bot/src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_house/model.sdf"                          # TODO:
+    inputxml = os.path.dirname(os.path.realpath(__file__))[:-7] + "/models/Bainer_Hall_FP/model.sdf"
     tree = ET.parse(inputxml)
     root = tree.getroot()
-    dooropenprob = probability
+    dooropenprob = prob.probability
 
     #loop through doors
     for objects in root.iter('link'):

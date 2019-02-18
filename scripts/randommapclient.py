@@ -17,7 +17,6 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         prob = int(sys.argv[1])
     else:
-
         sys.exit(1)
     print "Requesting %s"%(prob)
     random_map_client(prob)
