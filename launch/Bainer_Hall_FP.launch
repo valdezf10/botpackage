@@ -5,11 +5,11 @@
   <arg name="z_pos" default="0.0"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/Bainer_Hall_FP.world"/>
+    <arg name="world_name" value="$(find botpackage)/worlds/Bainer_Hall_FP.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/>
-    <arg name="headless" value="false"/>
+    <arg name="gui" value="true"/> <!--> probably turn this off when we run full sim <-->
+    <arg name="headless" value="false"/> <!--> probably turn this off when we run full sim <-->
     <arg name="debug" value="false"/>
   </include>
 
