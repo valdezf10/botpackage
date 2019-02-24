@@ -101,7 +101,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES 252botpackage
-  CATKIN_DEPENDS rospy std_msgs actionlib_msgs
+  CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -163,6 +163,7 @@ install(DIRECTORY
   scripts/randommapclient.py
   scripts/randommap_node.py
   scripts/newgoal.py
+  scripts/createturtle.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
