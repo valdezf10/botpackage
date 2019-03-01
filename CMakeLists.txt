@@ -164,6 +164,7 @@ install(DIRECTORY
  install(PROGRAMS
   scripts/randommapclient.py
   scripts/randommap_node.py
+  scripts/findcoords.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
