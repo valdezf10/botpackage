@@ -164,6 +164,7 @@ install(DIRECTORY
   scripts/randommap_node.py
   scripts/newgoal.py
   scripts/createturtle.py
+  scripts/waypointgoal.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
