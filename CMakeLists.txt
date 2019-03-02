@@ -8,7 +8,6 @@ project(botpackage)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  message_generation
   std_msgs
   rospy
 )
@@ -61,8 +60,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 ## Generate actions in the 'action' folder
 # add_action_files(
 #   FILES
-#   Action1.action
-#   Action2.action
+#   newgoal.action
 # )
 
 ## Generate added messages and services with any dependencies listed here
@@ -103,7 +101,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES 252botpackage
-#  CATKIN_DEPENDS rospy std_msgs
+  CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -164,6 +162,7 @@ install(DIRECTORY
  install(PROGRAMS
   scripts/randommapclient.py
   scripts/randommap_node.py
+  scripts/waypointgoal.py
   scripts/findcoords.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
