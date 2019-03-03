@@ -8,16 +8,16 @@
     <arg name="world_name" value="$(find botpackage)/worlds/Bainer_Hall_FP.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/> <!--> probably turn this false when we run full sim <-->
-    <arg name="headless" value="false"/> <!--> probably turn this true when we run full sim <-->
+    <arg name="gui" value="false"/> <!--> probably turn this false when we run full sim <-->
+    <arg name="headless" value="true"/> <!--> probably turn this true when we run full sim <-->
     <arg name="debug" value="false"/>
   </include>
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
-
+  <param name="base_global_planner" value="global_planner/GlobalPlanner" />
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" /> 
   <node name="newgoal" pkg="botpackage" type="newgoal.py"/>
-  <node name="createturtle" pkg="botpackage" type="createturtle.py"/>
+<!--  <node name="createturtle" pkg="botpackage" type="createturtle.py"/> -->
 
   <include file="$(find botpackage)/launch/new_turtlebot3_navigation.launch">
     <arg name="map_file" default="$(find botpackage)/maps/map.yaml"/>
