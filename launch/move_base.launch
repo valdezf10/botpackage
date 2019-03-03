@@ -8,7 +8,7 @@
   <!-- move_base -->
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+    <!-- <param name="base_global_planner" value="global_planner/GlobalPlanner" />  -->
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
     <rosparam file="$(find botpackage)/param/global_planner_param.yaml" />    
     <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
@@ -21,4 +21,6 @@
     <remap from="odom" to="$(arg odom_topic)"/>
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
   </node>
+
+ <!-- <node pkg="botpackage" type="resetParam.py" name="resetParam" output="screen" />   -->
 </launch>
