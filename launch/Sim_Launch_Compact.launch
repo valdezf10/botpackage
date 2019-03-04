@@ -13,7 +13,7 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find botpackage)/urdf/turtlebot3_$(arg model).urdf.xacro" />
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" /> 
   <node name="newgoal" pkg="botpackage" type="newgoal.py"/>
 
@@ -72,9 +72,13 @@
  <!-- <node pkg="botpackage" type="resetParam.py" name="resetParam" output="screen" />   -->
 
 
+  <!-- Lidar -->
+  <arg name="set_frame_id" default="base_scan"/>
 
-
-
+  <node pkg="hls_lfcd_lds_driver" type="hlds_laser_publisher" name="turtlebot3_lds" output="screen">
+    <param name="port" value="/dev/ttyUSB0"/>
+    <param name="frame_id" value="$(arg set_frame_id)"/>
+  </node>
 
 
 
