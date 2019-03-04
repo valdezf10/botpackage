@@ -8,7 +8,7 @@
     <arg name="world_name" value="$(find botpackage)/worlds/Bainer_Hall_FP.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="false"/> <!--> probably turn this false when we run full sim <-->
+    <arg name="gui" value="true"/> <!--> probably turn this false when we run full sim <-->
     <arg name="headless" value="true"/> <!--> probably turn this true when we run full sim <-->
     <arg name="debug" value="false"/>
   </include>
@@ -71,14 +71,6 @@
 
  <!-- <node pkg="botpackage" type="resetParam.py" name="resetParam" output="screen" />   -->
 
-
-  <!-- Lidar -->
-  <arg name="set_frame_id" default="base_scan"/>
-
-  <node pkg="hls_lfcd_lds_driver" type="hlds_laser_publisher" name="turtlebot3_lds" output="screen">
-    <param name="port" value="/dev/ttyUSB0"/>
-    <param name="frame_id" value="$(arg set_frame_id)"/>
-  </node>
 
 
 
