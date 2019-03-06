@@ -3,7 +3,8 @@
   <xacro:arg name="laser_visual"  default="false"/>
   <xacro:arg name="camera_visual" default="false"/>
   <xacro:arg name="imu_visual"    default="false"/>
-
+  <xacro:property name="laser_range_val" value="$(env LASER_RANGE_VAL)"/>
+  
   <gazebo reference="base_link">
     <material>Gazebo/DarkGrey</material>
   </gazebo>
@@ -127,7 +128,7 @@
         </scan>
         <range>
           <min>0.120</min>
-          <max>1.35</max>
+          <max>${laser_range_val}</max>
           <resolution>0.015</resolution>
         </range>
         <noise>
