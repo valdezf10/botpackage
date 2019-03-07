@@ -1,17 +1,16 @@
 #!/usr/bin/env python
-import rospy
+
 import sys
 import os 
 import random
 import xml.etree.ElementTree as ET
 import csv
-from randommap.srv import probability
 
 
-def randommapcallback(prob):    
+def randommap(prob):    
     #RNG init
     seed = random.randrange(sys.maxsize)
-    random.seed(a=seed) # TODO: add something to send a seed for testing
+    random.seed(a=seed)
 
     ### generate random waypoints ###
     inputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "coords.csv"
@@ -29,7 +28,7 @@ def randommapcallback(prob):
     inputxml = os.path.dirname(os.path.realpath(__file__))[:-7] + "/models/Bainer_Hall_FP/model.sdf"
     tree = ET.parse(inputxml)
     root = tree.getroot()
-    dooropenprob = prob.probability
+    dooropenprob = prob
 
     for objects in root.iter('link'):
         if objects.attrib['name'][:4] == 'Door':
@@ -40,11 +39,9 @@ def randommapcallback(prob):
     tree.write(inputxml[:-4] + 'random.sdf')
     return seed
 
-def random_map_server():
-    rospy.init_node('random_map_server')
-    s = rospy.Service('random_map', probability, randommapcallback)
-    print "Ready to generate map."
-    rospy.spin()
-    
 if __name__ == '__main__':
-    random_map_server()
+    if len(sys.argv) == 2:
+        prob = sys.argv[1]
+    else:
+        prob = 1
+    print(randommap(prob))
