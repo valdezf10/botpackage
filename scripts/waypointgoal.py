@@ -20,8 +20,10 @@ def waypoint_goal():
     with open(inputcoords, 'rb') as csvfile:
         creader = csv.reader(csvfile)
         allcoords= list(creader)
+    rownum = 0
 
     for row in allcoords:
+        rownum += 1
         x = float(row[0])
         y = float(row[1]) #swapped for some reason
 
@@ -42,11 +44,12 @@ def waypoint_goal():
         sac.wait_for_result()
 
         #print result
-        print "Arrived at waypoint: " + str(x) + ", " + str(y)
+        rospy.loginfo("Arrived at waypoint(" + str(rownum) + "/" + str(len(allcoords)) + "):" + str(x) + ", " + str(y))
 
 if __name__ == '__main__':
     rospy.init_node('waypoint_goal')
     try:
         waypoint_goal()
+        os.system("rosnode kill -a")
     except rospy.ROSInterruptException:
         print "Keyboard Interrupt"
