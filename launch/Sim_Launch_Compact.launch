@@ -3,6 +3,7 @@
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
+  <arg name="use_dijkstra" default="true"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find botpackage)/worlds/Bainer_Hall_FP.world"/>
@@ -37,20 +38,6 @@
   </node>
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
@@ -79,6 +66,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <param name="base_global_planner" value="global_planner/GlobalPlanner" />  
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <param name="/GlobalPlanner/use_dijkstra" value="$(arg use_dijkstra)"/>
     <rosparam file="$(find botpackage)/param/global_planner_param.yaml" />    
     <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
