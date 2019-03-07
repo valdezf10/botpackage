@@ -4,6 +4,7 @@ import roslib
 roslib.load_manifest('botpackage')
 import rospy
 import actionlib
+import os
 
 #move_base_msgs
 from move_base_msgs.msg import *
@@ -37,7 +38,7 @@ def simple_move():
 
     #print result
     print sac.get_result()
-
+    os.environ[" WAITFORIT"]="false"
 
 if __name__ == '__main__':
     try:
