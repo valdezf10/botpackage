@@ -74,15 +74,15 @@ def go():
 		writeheader = True
 
 	result,endtimes = resultdata(bag.read_messages('/move_base/result'))
-	odom = np.array(odomdata(bag.read_messages('/odom'), endtimes))
-	goal = goaldata(bag.read_messages('/move_base/goal'))
+	odom = np.array(odomdata(bag.read_messages('/odom'), endtimes))[:len(result)]
+	goal = goaldata(bag.read_messages('/move_base/goal'))[:len(result)]
 	avgvel = odom/result
 	stdwpt = odom/goal
 	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
 		filewriter = csv.writer(csvfile, delimiter = ',')
 		if writeheader:
 			filewriter.writerow(headerrow)	
-		filewriter.writerows(np.column_stack((odom[:len(result)],goal[:len(result)],result,avgvel[:len(result)],stdwpt[:len(result)]))) # TODO: Jonny add env variables for lidar and planner
+		filewriter.writerows(np.column_stack((odom,goal,result,avgvel,stdwpt))) # TODO: Jonny add env variables for lidar and planner
 	bag.close()
 	print "Done reading bag file."
 
