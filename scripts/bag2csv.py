@@ -62,7 +62,7 @@ def go():
 		return
 	print "Reading file: " + bagFile
 	#access bag
-	bag = rosbag.Bag(os.path.dirname(__file__)[:-8] + "/bag/" + bagFile)
+	bag = rosbag.Bag(os.path.dirname(os.path.realpath(__file__))[:-8] + "/bag/" + bagFile)
 
 	#add header if file is empty
 	writeheader = False
