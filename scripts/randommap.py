@@ -44,5 +44,5 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         prob = int(sys.argv[1])
     else:
-        prob = 1
+        prob = 100
     print(randommap(prob))
