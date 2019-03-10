@@ -54,11 +54,12 @@ def resultdata(currenttopic):
 	return timediff, timelist[1:]
 
 def go():
-	listOfBagFiles = sorted([f for f in os.listdir(os.path.dirname(__file__)[:-8] + "/bag") if f[-4:] == ".bag"])	#get list of only bag files in current dir.
+	listOfBagFiles = sorted([f for f in os.listdir(os.path.dirname(os.path.realpath(__file__))[:-8] + "/bag") if f[-4:] == ".bag"])	#get list of only bag files in current dir.
 	try:
 		bagFile = listOfBagFiles[-1] # use last file created
 	except IndexError:
 		print("No bag files.")
+		return
 	print "Reading file: " + bagFile
 	#access bag
 	bag = rosbag.Bag(os.path.dirname(__file__)[:-8] + "/bag/" + bagFile)
@@ -66,8 +67,8 @@ def go():
 	#add header if file is empty
 	writeheader = False
 	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar","Planner"]
-	if os.path.isfile(os.path.dirname(__file__)[:-8] + "/csv/result.csv"):
-		if os.stat(os.path.dirname(__file__)[:-8] + "/csv/result.csv").st_size == 0:
+	if os.path.isfile(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv"):
+		if os.stat(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv").st_size == 0:
 			writeheader = True
 	else:
 		writeheader = True
@@ -77,7 +78,7 @@ def go():
 	goal = goaldata(bag.read_messages('/move_base/goal'))
 	avgvel = odom/result
 	stdwpt = odom/goal
-	with open(os.path.dirname(__file__)[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
+	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
 		filewriter = csv.writer(csvfile, delimiter = ',')
 		if writeheader:
 			filewriter.writerow(headerrow)	
