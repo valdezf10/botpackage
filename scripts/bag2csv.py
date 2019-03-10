@@ -55,7 +55,10 @@ def resultdata(currenttopic):
 
 def go():
 	listOfBagFiles = sorted([f for f in os.listdir(os.path.dirname(__file__)[:-8] + "/bag") if f[-4:] == ".bag"])	#get list of only bag files in current dir.
-	bagFile = listOfBagFiles[-1] # use last file created
+	try:
+		bagFile = listOfBagFiles[-1] # use last file created
+	except IndexError:
+		print("No bag files.")
 	print "Reading file: " + bagFile
 	#access bag
 	bag = rosbag.Bag(os.path.dirname(__file__)[:-8] + "/bag/" + bagFile)
