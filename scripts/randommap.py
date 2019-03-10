@@ -33,7 +33,7 @@ def randommap(prob):
 
     for objects in root.iter('link'):
         if objects.attrib['name'][:4] == 'Door':
-            if random.random() <= dooropenprob/100:
+            if random.random() <= dooropenprob/100.0:
                 chunks = objects.find('pose').text.split()
                 chunks[2] = '-3'                                  #put it 3m in the ground
                 objects.find('pose').text = ' '.join(chunks)
@@ -42,7 +42,7 @@ def randommap(prob):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        prob = int(sys.argv[1])
+        prob = float(sys.argv[1])
     else:
         prob = 100
     print(randommap(prob))
