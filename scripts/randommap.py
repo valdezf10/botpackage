@@ -7,11 +7,7 @@ import xml.etree.ElementTree as ET
 import csv
 
 
-def randommap(prob):    
-    #RNG init
-    seed = random.randrange(sys.maxsize)
-    random.seed(a=seed)
-
+def randomcoords():    
     ### generate random waypoints ###
     inputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "coords.csv"
     outputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "waypointset.csv"
@@ -23,6 +19,11 @@ def randommap(prob):
     with open(outputcoords, 'w') as csvfile:
         cwriter = csv.writer(csvfile)
         cwriter.writerows(newcoords)
+
+def randommap(prob):
+    #RNG init
+    seed = random.randrange(sys.maxsize)
+    random.seed(a=seed)
 
     ### Generate random open doors ###
     inputxml = os.path.dirname(os.path.realpath(__file__))[:-7] + "/models/Bainer_Hall_FP/model.sdf"
