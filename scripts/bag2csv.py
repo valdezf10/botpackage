@@ -82,7 +82,7 @@ def go():
 		filewriter = csv.writer(csvfile, delimiter = ',')
 		if writeheader:
 			filewriter.writerow(headerrow)	
-		filewriter.writerows(np.column_stack((odom,goal,result,avgvel,stdwpt))) # TODO: Jonny add env variables for lidar and planner
+		filewriter.writerows(np.column_stack((odom[:len(result)],goal[:len(result)],result,avgvel[:len(result)],stdwpt[:len(result)]))) # TODO: Jonny add env variables for lidar and planner
 	bag.close()
 	print "Done reading bag file."
 
