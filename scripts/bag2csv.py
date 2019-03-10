@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
-import rosbag, sys, csv
-import time
-import string
+import rosbag 
+import csv
 import os
-import shutil
 import numpy as np
 
 
@@ -26,7 +24,8 @@ def odomdata(currenttopic, endtimes):
 		lastendtime = endtime
 		posearray = np.array(split)
 		pathdiff= np.diff(posearray, axis=0)
-		totalpath = np.sum(pathdiff, axis=0)
+		pathabs = np.abs(pathdiff)
+		totalpath = np.sum(pathabs, axis=0)
 		finallength = np.sqrt(totalpath[0]**2+totalpath[1]**2)
 		splitlengths.append(finallength)
 	return splitlengths
@@ -54,34 +53,34 @@ def resultdata(currenttopic):
 	timediff = np.diff(timearray, axis=0)
 	return timediff, timelist[1:]
 
-listOfBagFiles = [f for f in os.listdir("/home/jason/252_bot/src/botpackage/bag") if f[-4:] == ".bag"]	#get list of only bag files in current dir.
-numberOfFiles = str(len(listOfBagFiles))
-print "reading all " + numberOfFiles + " bagfiles in current directory: \n"
-for f in listOfBagFiles:
-	print f
-
-count = 0
-for bagFile in listOfBagFiles:
-	count += 1
-	print "reading file " + str(count) + " of  " + numberOfFiles + ": " + bagFile
+def go():
+	listOfBagFiles = sorted([f for f in os.listdir(os.path.dirname(__file__)[:-8] + "/bag") if f[-4:] == ".bag"])	#get list of only bag files in current dir.
+	bagFile = listOfBagFiles[-1] # use last file created
+	print "Reading file: " + bagFile
 	#access bag
-	bag = rosbag.Bag("/home/jason/252_bot/src/botpackage/bag/" + bagFile)
-	bagContents = bag.read_messages()
-	bagName = bag.filename
-	#firstIteration = True	#allows header row
+	bag = rosbag.Bag(os.path.dirname(__file__)[:-8] + "/bag/" + bagFile)
 
-	# if firstIteration:	# header
-	# 	headers = ["rosbagTimestamp"]	#first column header
-	# 	for pair in instantaneousListOfData:
-	# 		headers.append(pair[0])
-	# 	filewriter.writerow(headers)
-	# 	firstIteration = False
+	#add header if file is empty
+	writeheader = False
+	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar","Planner"]
+	if os.path.isfile(os.path.dirname(__file__)[:-8] + "/csv/result.csv"):
+		if os.stat(os.path.dirname(__file__)[:-8] + "/csv/result.csv").st_size == 0:
+			writeheader = True
+	else:
+		writeheader = True
 
 	result,endtimes = resultdata(bag.read_messages('/move_base/result'))
-	odom = odomdata(bag.read_messages('/odom'), endtimes)
+	odom = np.array(odomdata(bag.read_messages('/odom'), endtimes))
 	goal = goaldata(bag.read_messages('/move_base/goal'))
-	with open("/home/jason/252_bot/src/botpackage/csv/result.csv", 'a') as csvfile: #change to 'a' for append
+	avgvel = odom/result
+	stdwpt = odom/goal
+	with open(os.path.dirname(__file__)[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
 		filewriter = csv.writer(csvfile, delimiter = ',')
-		filewriter.writerows(np.column_stack((np.array(odom),goal,result)))
+		if writeheader:
+			filewriter.writerow(headerrow)	
+		filewriter.writerows(np.column_stack((odom,goal,result,avgvel,stdwpt))) # TODO: Jonny add env variables for lidar and planner
 	bag.close()
-print "Done reading all " + numberOfFiles + " bag files."
+	print "Done reading bag file."
+
+if __name__ == "__main__":
+	go()
