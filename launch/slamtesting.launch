@@ -22,4 +22,7 @@
   </include>
   
   <node name="waypoint_goal" pkg="botpackage" type="waypointgoal.py"/>
+
+  <node pkg="rosbag" type="record" name="rosbagger"
+       args="record -o $(find botpackage)/bag/ /odom /move_base/result /move_base/goal"/>
 </launch>
