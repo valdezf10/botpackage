@@ -16,7 +16,8 @@
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find botpackage)/urdf/turtlebot3_$(arg model).urdf.xacro" />
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />  
-  <node name="newpointgoal" pkg="botpackage" type="newpointgoal.py"/>
+  <node name="waypoint_goal" pkg="botpackage" type="waypointgoal.py"/>
+
 
 
 <!-- NEW_TURTLEBOT3_NAVIGATION.LAUNCH EQUVALENT  --> 

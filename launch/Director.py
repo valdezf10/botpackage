@@ -6,7 +6,9 @@ import roslaunch
 from time import sleep
 
 #Iterative Simulation Parameters
-plannerList = ['false', 'true'] # Dijkstra: true=on, false=off
+#plannerList = ['false', 'true'] # Dijkstra: true=on, false=off
+plannerList = ['true','false'] # Dijkstra: true=on, false=off
+
 laserRanges= [.5, 1.5 ,3.5, 5]
 laserRate = [1, 5 , 20, 40,]
 imuRate = [100, 200, 400, 500 ] 
@@ -26,12 +28,13 @@ def Set_Env_Var(name, value):
 	sleep(1)
 
 def startSim():
-	os.system("roslaunch botpackage slamtesting.launch")
+	#os.system("roslaunch botpackage slamtesting.launch")
+	os.system("roslaunch botpackage Sim_Launch_Compact.launch")
 
 	
 def killSim():
-	os.system("rosnode kill -a")
-	#os.system("^C")
+	#os.system("rosnode kill -a")
+	os.system("^C")
 	
 	
 setParam = True 
@@ -44,23 +47,24 @@ if __name__=="__main__":
 
 	for planner in plannerList:			# Iterate over global planners
 		Set_Env_Var("USE_DIJKSTRA",planner) # Set planner env var
-		#os.system("echo $USE_DIJKSTRA") 	# debug print 
+		os.system("echo Dijkstra Value:")
+		os.system("echo $USE_DIJKSTRA") 	# debug print 
 		#while os.environ["WAITFORIT"]=="true":			
-		while True:
-			try: 
-				startSim()							#begin Simulation
+		
+		try: 
+			startSim()							#begin Simulation
 
-				sleep(1)	
-				timeout+=1
-				print("in try")	
-				if timeout ==20:
-					print("raise exception")
-					raise Exception		
+			sleep(1)	
+			timeout+=1
+			print("in try")	
+			if timeout ==20:
+				print("raise exception")
+				raise Exception		
 				
-			except Exception:
-				print("exception made")
-				killSim()
-				break
+		except Exception:
+			print("exception made")
+			killSim()
+			continue
 		
 		
 	
