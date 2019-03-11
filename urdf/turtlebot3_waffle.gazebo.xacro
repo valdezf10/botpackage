@@ -3,8 +3,16 @@
   <xacro:arg name="laser_visual"  default="false"/>
   <xacro:arg name="camera_visual" default="false"/>
   <xacro:arg name="imu_visual"    default="false"/>
-  <xacro:property name="laser_range_val" value="$(env LASER_RANGE_VAL)"/>
+
   
+
+  <xacro:property name="laser_range_val" value="$(env LASER_RANGE_VAL)"/>
+  <xacro:property name="laser_update_rate" value="$(env LASER_UPDATE_RATE)"/>
+  <xacro:property name="imu_update_rate" value="$(env IMU_UPDATE_RATE)"/>
+  
+
+
+
   <gazebo reference="base_link">
     <material>Gazebo/DarkGrey</material>
   </gazebo>
