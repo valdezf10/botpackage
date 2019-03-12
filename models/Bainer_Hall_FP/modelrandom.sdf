@@ -49,7 +49,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">-23.3342 10.4772 0 0 -0 0</pose>
+      <pose frame="">-23.3342 10.4772 -3 0 -0 0</pose>
     </link>
     <link name="Door_12">
       <collision name="Door_12_Collision">
@@ -124,7 +124,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">11.2185 1.52839 0 0 -0 0</pose>
+      <pose frame="">11.2185 1.52839 -3 0 -0 0</pose>
     </link>
     <link name="Door_16">
       <collision name="Door_16_Collision">
@@ -174,7 +174,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">-13.7307 10.6137 0 0 -0 0</pose>
+      <pose frame="">-13.7307 10.6137 -3 0 -0 0</pose>
     </link>
     <link name="Door_19">
       <collision name="Door_19_Collision">
@@ -249,7 +249,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">2.14334 14.2049 0 0 0 -1.5708</pose>
+      <pose frame="">2.14334 14.2049 -3 0 0 -1.5708</pose>
     </link>
     <link name="Door_22">
       <collision name="Door_22_Collision">
@@ -499,7 +499,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">-34.6539 -6.91196 0 0 -0 0</pose>
+      <pose frame="">-34.6539 -6.91196 -3 0 -0 0</pose>
     </link>
     <link name="Door_32">
       <collision name="Door_32_Collision">
@@ -774,7 +774,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">17.011 -20.2734 0 0 -0 0</pose>
+      <pose frame="">17.011 -20.2734 -3 0 -0 0</pose>
     </link>
     <link name="Door_44">
       <collision name="Door_44_Collision">
@@ -824,7 +824,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">17.1411 -17.9894 0 0 0 -3.1354</pose>
+      <pose frame="">17.1411 -17.9894 -3 0 0 -3.1354</pose>
     </link>
     <link name="Door_46">
       <collision name="Door_46_Collision">
@@ -1024,7 +1024,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">-40.7662 -14.5556 0 0 -0 0</pose>
+      <pose frame="">-40.7662 -14.5556 -3 0 -0 0</pose>
     </link>
     <link name="Door_54">
       <collision name="Door_54_Collision">
@@ -1249,7 +1249,7 @@
           </script>
         </material>
       </visual>
-      <pose frame="">-19.4005 -7.62221 0 0 -0 3.14079</pose>
+      <pose frame="">-19.4005 -7.62221 -3 0 -0 3.14079</pose>
     </link>
     <link name="Door_64">
       <collision name="Door_64_Collision">
