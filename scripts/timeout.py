@@ -25,7 +25,7 @@ def waypoint_goal():
     #create goal
     goal = MoveBaseGoal()
 
-    inputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "waypointset2.csv"
+    inputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "waypointset.csv"
     with open(inputcoords, 'rb') as csvfile:
         creader = csv.reader(csvfile)
         allcoords= list(creader)

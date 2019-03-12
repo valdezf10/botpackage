@@ -30,8 +30,8 @@ def Set_Env_Var(name, value):
 def startSim():
 	#os.system("roslaunch botpackage slamtesting.launch")
 	#os.system("roslaunch botpackage Sim_Launch_Compact.launch")
-        #os.system("roslaunch botpackage SimLaunch_timeout.launch")
-        os.system("roslaunch botpackage launch.launch")
+        os.system("roslaunch botpackage SimLaunch_timeout.launch")
+        #os.system("roslaunch botpackage launch.launch")
 
 	
 def killSim():
