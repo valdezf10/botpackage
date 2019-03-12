@@ -18,8 +18,12 @@ imuRate = [100, 200, 400, 500 ]
 def setDoor(val):
 	if val== True:
 		mainProg(100)
+		os.environ["DOOR_PROB"]="100"
+		print("Door Probability = 100%")    #Debug print	
 	elif val ==False:
 		mainProg(0)
+		os.environ["DOOR_PROB"]="85"
+		print("Door Probability = 85%")       # Debug print 
 	
 
 
