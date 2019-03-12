@@ -162,8 +162,13 @@ install(DIRECTORY
  install(PROGRAMS
   scripts/randommapclient.py
   scripts/randommap_node.py
+<<<<<<< HEAD
   scripts/waypointgoal.py
   scripts/findcoords.py
+=======
+  scripts/newgoal.py
+  scripts/createturtle.py
+>>>>>>> origin/sensors
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
