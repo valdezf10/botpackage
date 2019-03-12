@@ -79,10 +79,18 @@ def go():
 	avgvel = odom/result
 	stdwpt = odom/goal
 	#tested with variables, unsure what will happen if they are unset
-	lidarrange =	[os.environ['LASER_RANGE_VAL']] * len(result)
-	lidarrate = 	[os.environ['LASER_UPDATE_RATE']] * len(result)
-	imurate = 		[os.environ['IMU_UPDATE_RATE']] * len(result)
-	planner = 		[os.environ['PLANNER']] * len(result)
+	try:
+		lidarrange =	[os.environ['LASER_RANGE_VAL']] * len(result)
+		lidarrate = 	[os.environ['LASER_UPDATE_RATE']] * len(result)
+		imurate = 		[os.environ['IMU_UPDATE_RATE']] * len(result)
+		planner = 		[os.environ['PLANNER']] * len(result)
+	except KeyError:
+		lidarrange =	"" * len(result)
+		lidarrate = 	"" * len(result)
+		imurate = 		"" * len(result)
+		planner = 		"" * len(result)
+		print("Keys not set correctly, ")
+
 	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
 		filewriter = csv.writer(csvfile, delimiter = ',')
 		if writeheader:
