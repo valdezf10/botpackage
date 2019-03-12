@@ -66,7 +66,7 @@ def go():
 
 	#add header if file is empty
 	writeheader = False
-	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar Range", "Lidar Rate","Planner"]
+	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar Range", "Lidar Rate","IMU Rate","Planner"]
 	if os.path.isfile(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv"):
 		if os.stat(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv").st_size == 0:
 			writeheader = True
@@ -85,11 +85,11 @@ def go():
 		imurate = 		[os.environ['IMU_UPDATE_RATE']] * len(result)
 		planner = 		[os.environ['PLANNER']] * len(result)
 	except KeyError:
-		lidarrange =	"" * len(result)
-		lidarrate = 	"" * len(result)
-		imurate = 		"" * len(result)
-		planner = 		"" * len(result)
-		print("Keys not set correctly, ")
+		lidarrange =	[""] * len(result)
+		lidarrate = 	[""] * len(result)
+		imurate = 		[""] * len(result)
+		planner = 		[""] * len(result)
+		print("Keys not set correctly")
 
 	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
 		filewriter = csv.writer(csvfile, delimiter = ',')
