@@ -18,6 +18,9 @@
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />  
   <node name="timeout_waypoint_goal" pkg="botpackage" type="timeout.py"/>
 
+  <node pkg="rosbag" type="record" name="rosbagger"
+    args="record -o $(find botpackage)/bag/ /odom /move_base/result /move_base/goal"/>
+
 
 
 <!-- NEW_TURTLEBOT3_NAVIGATION.LAUNCH EQUVALENT  --> 
@@ -64,7 +67,7 @@
 
   <!-- move_base -->
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="log">
     <param name="base_global_planner" value="global_planner/GlobalPlanner" />  
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
     <!-- <param name="/GlobalPlanner/use_dijkstra" value="$(arg )"/> --> 
