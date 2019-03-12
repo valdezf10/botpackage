@@ -29,7 +29,9 @@ def Set_Env_Var(name, value):
 
 def startSim():
 	#os.system("roslaunch botpackage slamtesting.launch")
-	os.system("roslaunch botpackage Sim_Launch_Compact.launch")
+	#os.system("roslaunch botpackage Sim_Launch_Compact.launch")
+        #os.system("roslaunch botpackage SimLaunch_timeout.launch")
+        os.system("roslaunch botpackage launch.launch")
 
 	
 def killSim():
@@ -52,14 +54,8 @@ if __name__=="__main__":
 		#while os.environ["WAITFORIT"]=="true":			
 		
 		try: 
-			startSim()							#begin Simulation
-
-			sleep(1)	
-			timeout+=1
-			print("in try")	
-			if timeout ==20:
-				print("raise exception")
-				raise Exception		
+			startSim()	#begin Simulation
+		
 				
 		except Exception:
 			print("exception made")
