@@ -5,6 +5,7 @@ import os
 import roslaunch
 from time import sleep
 from randommap import mainProg
+
 #Iterative Simulation Parameters
 #plannerList = ['false', 'true'] # Dijkstra: true=on, false=off
 plannerList = ['true','false'] # Dijkstra: true=on, false=off
@@ -51,23 +52,30 @@ timeout =0
 if __name__=="__main__":
 	if setParam ==True:
 		Set_Default_Param()   # Set Default Parameters 
-		setParam== False      
-	setDoor(True)
-
-	for planner in plannerList:			# Iterate over global planners
-		Set_Env_Var("USE_DIJKSTRA",planner) # Set planner env var
-		os.system("echo Dijkstra Value:")
-		os.system("echo $USE_DIJKSTRA") 	# debug print 
+		setParam== False    
+		  
+	for doorState in doorOpen:
+		setDoor(doorState)
+		for planner in plannerList:
+			if planner =='true':
+				os.environ["PLANNER"]="Dijkstra"
+				print("Export Planner env Var as Dijkstra")  #Debug print 
+			elif planner =='false':
+				os.environ["PLANNER"]="A*"
+				print("Export Planner env Var as A*") # debug Print 			# Iterate over global planners
+			Set_Env_Var("USE_DIJKSTRA",planner) # Set planner env var
+			os.system("echo Dijkstra Value:")
+			os.system("echo $USE_DIJKSTRA") 	# debug print 
+						
+			
+			try: 
+				startSim()	#begin Simulation
+			
 					
-		
-		try: 
-			startSim()	#begin Simulation
-		
-				
-		except Exception:
-			print("exception made")
-			killSim()
-			continue
+			except Exception:
+				print("exception made")
+				killSim()
+				continue
 
 
 
