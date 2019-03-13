@@ -74,50 +74,55 @@ def go():
 
     # add header if file is empty
     writeheader = False
-    headerrow = ["Odom Distance (m)", "Goal Distance (m)", "Time to waypoint (s)",
-                 "Average Velocity Over Waypoint (m/s)", "Standardized Waypoint Deviation (m/m)", "Lidar", "Planner"]
+    headerrow = ["File","Odom Distance (m)", "Goal Distance (m)", "Time to waypoint (s)", "Average Velocity Over Waypoint (m/s)",
+                 "Standardized Waypoint Deviation (m/m)", "Lidar Range", "Lidar Rate", "IMU Rate", "Planner", "Door Probability", "Laser Noise","Gyro Noise", "Accel Noise", "Dijkstra"]
     if os.path.isfile(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv"):
         if os.stat(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv").st_size == 0:
             writeheader = True
     else:
         writeheader = True
 
-	#add header if file is empty
-	writeheader = False
-	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar Range", "Lidar Rate","IMU Rate","Planner", "Door Probability"]
-	if os.path.isfile(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv"):
-		if os.stat(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv").st_size == 0:
-			writeheader = True
-	else:
-		writeheader = True
+    result, endtimes = resultdata(bag.read_messages('/move_base/result'))
+    odom = np.array(odomdata(bag.read_messages(
+        '/odom'), endtimes))[:len(result)]
+    goal = goaldata(bag.read_messages('/move_base/goal'))[:len(result)]
+    avgvel = odom/result
+    stdwpt = odom/goal
+    # tested with variables, unsure what will happen if they are unset
+    try:
+        lidarrange = [os.environ['LASER_RANGE_VAL']] * len(result)
+        lidarrate = [os.environ['LASER_UPDATE_RATE']] * len(result)
+        imurate = [os.environ['IMU_UPDATE_RATE']] * len(result)
+        planner = [os.environ['PLANNER']] * len(result)
+        door = [os.environ['DOOR_PROB']] * len(result)
+        lasernoise = [os.environ['LASER_NOISE_STDDEV']] * len(result)
+        imugyronoise = [os.environ['IMU_GYRO_NOISE_STDDEV']] * len(result)
+        imuaccelnoise = [os.environ['IMU_ACCEL_NOISE_STDDEV']] * len(result)
+        dijkstra = [os.environ["USE_DIJKSTRA"]] * len(result)
+        bagFilecolumn = [bagFile] * len(result)
+    except KeyError:
+        lidarrange = [""] * len(result)
+        lidarrate = [""] * len(result)
+        imurate = [""] * len(result)
+        planner = [""] * len(result)
+        door = [""] * len(result)
+        lasernoise = [""] * len(result)
+        imugyronoise = [""] * len(result)
+        imuaccelnoise = [""] * len(result)
+        dijkstra = [""] * len(result)
+        bagFilecolumn = [""] * len(result)
+        print("Keys not set correctly")
 
-	result,endtimes = resultdata(bag.read_messages('/move_base/result'))
-	odom = np.array(odomdata(bag.read_messages('/odom'), endtimes))[:len(result)]
-	goal = goaldata(bag.read_messages('/move_base/goal'))[:len(result)]
-	avgvel = odom/result
-	stdwpt = odom/goal
-	#tested with variables, unsure what will happen if they are unset
-	try:
-		lidarrange =	[os.environ['LASER_RANGE_VAL']] * len(result)
-		lidarrate = 	[os.environ['LASER_UPDATE_RATE']] * len(result)
-		imurate = 		[os.environ['IMU_UPDATE_RATE']] * len(result)
-		planner = 		[os.environ['PLANNER']] * len(result)
-		door =			[os.environ['DOOR_PROB']] * len(result)
-	except KeyError:
-		lidarrange =	[""] * len(result)
-		lidarrate = 	[""] * len(result)
-		imurate = 		[""] * len(result)
-		planner = 		[""] * len(result)
-		door = 			[""] * len(result)
-		print("Keys not set correctly")
+    # change to 'a' for append
+    with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',')
+        if writeheader:
+            filewriter.writerow(headerrow)
+        filewriter.writerows(np.column_stack(
+            (bagFilecolumn,odom, goal, result, avgvel, stdwpt, lidarrange, lidarrate, imurate, planner, door,lasernoise,imugyronoise,imuaccelnoise,dijkstra)))
+    bag.close()
+    print "Done reading bag file."
 
-	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
-		filewriter = csv.writer(csvfile, delimiter = ',')
-		if writeheader:
-			filewriter.writerow(headerrow)	
-		filewriter.writerows(np.column_stack((odom,goal,result,avgvel,stdwpt,lidarrange,lidarrate,imurate,planner, door)))
-	bag.close()
-	print "Done reading bag file."
 
 if __name__ == "__main__":
     go()
