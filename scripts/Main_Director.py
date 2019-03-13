@@ -31,10 +31,6 @@ def Set_Default_Param():
 	os.environ['LASER_RANGE_VAL']=str(3.5)
 	os.environ['LASER_UPDATE_RATE']=str(5)
 	os.environ['IMU_UPDATE_RATE']=str(200)
-	#print os.system("echo $LASER_RANGE_VAL")
-	#print os.system("echo $LASER_UPDATE_RATE")
-	#print os.system("echo $IMU_UPDATE_RATE")
-	
 	
 def Set_Env_Var(name, value):
 	os.environ[str(name)]=str(value)
@@ -42,7 +38,7 @@ def Set_Env_Var(name, value):
 
 def startSim():
 	os.system("roslaunch botpackage SimLaunch_timeout.launch")
-        
+        sleep(5)
 
 	
 def killSim():
@@ -58,9 +54,9 @@ if __name__=="__main__":
 		Set_Default_Param()   # Set Default Parameters 
 		setParam== False    
 		  
-	for doorState in doorOpen:
+	for doorState in doorOpen:     # loop through open and mostly open door stats
 		setDoor(doorState)
-		for planner in plannerList:
+		for planner in plannerList:  # loop through path planners
 			if planner =='true':
 				os.environ["PLANNER"]="Dijkstra"
 				print("Export Planner env Var as Dijkstra")  #Debug print 
