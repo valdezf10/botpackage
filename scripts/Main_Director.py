@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-import rospy
 import os
-import roslaunch
 from time import sleep
 import randommap
+import datetime
+
+
 
 # Iterative Simulation Parameters
-# plannerList = ['false', 'true'] # Dijkstra: true=on, false=off
 plannerList = ['true', 'false']  # Dijkstra: true=on, false=off
 doorOpen = [True, False]
 
@@ -20,19 +20,19 @@ imu_accel_range = [.017, .85]
 def setDoor(val):
     if val == True:
         randommap.mainProg(100)
-        os.environ["DOOR_PROB"] = "100"
-        print("Door Probability = 100%")  # Debug print
+        Set_Env_Var("DOOR_PROB", "100")
+        print("Door Probability = 100%")
     elif val == False:
         randommap.mainProg(0)
-        os.environ["DOOR_PROB"] = "85"
-        print("Door Probability = 85%")       # Debug print
+        Set_Env_Var("DOOR_PROB", "85")
+        print("Door Probability = 85%")
 
 
 def Set_Default_Param():
-    os.environ['LASER_RANGE_VAL'] = str(3.5)
-    os.environ['LASER_NOISE_STDDEV'] = str(.01)
-    os.environ['IMU_GYRO_NOISE_STDDEV'] = str(.0002)
-    os.environ['IMU_ACCEL_NOISE_STDDEV'] = str(.017)
+    Set_Env_Var('LASER_RANGE_VAL', str(3.5))
+    Set_Env_Var('LASER_NOISE_STDDEV', str(.01))
+    Set_Env_Var('IMU_GYRO_NOISE_STDDEV', str(.0002))
+    Set_Env_Var('IMU_ACCEL_NOISE_STDDEV', str(.017))
 
 
 def Set_Env_Var(name, value):
@@ -46,17 +46,11 @@ def startSim():
 
 
 def killSim():
-    #os.system("rosnode kill -a")
     os.system("^C")
 
 
-setParam = True
-timeout = 0
-
 if __name__ == "__main__":
-    if setParam == True:
-        Set_Default_Param()   # Set Default Parameters
-        setParam == False
+    Set_Default_Param()
 
     for p1 in laserRanges:
         Set_Env_Var("LASER_RANGE_VAL", p1)
@@ -72,22 +66,20 @@ if __name__ == "__main__":
                     setDoor(doorState)
                     for planner in plannerList:  # loop through path planners
                         if planner == 'true':
-                            os.environ["PLANNER"] = "Dijkstra"
-                            # Debug print
+                            Set_Env_Var("PLANNER", "Dijkstra")
                             print("Export Planner env Var as Dijkstra")
                         elif planner == 'false':
-                            os.environ["PLANNER"] = "A*"
-                            # debug Print 			# Iterate over global planners
+                            Set_Env_Var("PLANNER", "A*")
                             print("Export Planner env Var as A*")
                         # Set planner env var
                         Set_Env_Var("USE_DIJKSTRA", planner)
                         os.system("echo Dijkstra Value:")
-                        os.system("echo $USE_DIJKSTRA") 	# debug print
+                        os.system("echo $USE_DIJKSTRA")
 
                         try:
-                            startSim()  # begin Simulation
+                            startSim()
 
                         except Exception:
-                            print("exception made")
+                            print("exception in Director" + str(datetime.datetime.now()))
                             killSim()
                             continue
