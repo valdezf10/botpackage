@@ -45,7 +45,7 @@ def waypoint_goal():
         sac.wait_for_result(rospy.Duration(60*8))
 
         #print result
-        rospy.loginfo("Arrived at waypoint(" + str(rownum) + "/" +
+        print("Arrived at waypoint(" + str(rownum) + "/" +
                       str(len(allcoords)) + "):" + str(x) + ", " + str(y))
 
 

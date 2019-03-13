@@ -8,11 +8,11 @@ import datetime
 
 
 # Iterative Simulation Parameters
-plannerList = ['true', 'false']  # Dijkstra: true=on, false=off
+plannerList = ['false','true']  # Dijkstra: true=on, false=off
 doorOpen = [True, False]
 
-laserRanges = [.5, 3.5]
-laser_noise_range = [5, 40, ]  # Standard Deviations of Params Listed
+laserRanges = [3.5,.5]
+laser_noise_range = [.01, .1]  # Standard Deviations of Params Listed
 imu_gyro_range = [.0002, .01]
 imu_accel_range = [.017, .85]
 
