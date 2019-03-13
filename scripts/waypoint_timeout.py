@@ -6,9 +6,19 @@ import rospy
 import actionlib
 import csv
 import os
+import time
+from bag2csv import go
 
 #move_base_msgs
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+
+def computeDelta(init):
+	finalTime = time.perf_counter_ns()
+        deltaTime = finalTime-init
+	print("Time Delta %s",deltaTime)
+	return deltaTime
+	
+
 
 def waypoint_goal():
     sac = actionlib.SimpleActionClient('move_base', MoveBaseAction )
@@ -22,6 +32,7 @@ def waypoint_goal():
         allcoords= list(creader)
     rownum = 0
 
+	
     for row in allcoords:
         rownum += 1
         x = float(row[0])
@@ -36,20 +47,34 @@ def waypoint_goal():
 
         #start listner
         sac.wait_for_server()
-
+		
         #send goal
         sac.send_goal(goal)
-
+	
         #finish
-        sac.wait_for_result()
-
+        sac.wait_for_result(rospy.Duration(60*8))    
+        #sac.wait_for_result(rospy.Duration(10))
         #print result
         rospy.loginfo("Arrived at waypoint(" + str(rownum) + "/" + str(len(allcoords)) + "):" + str(x) + ", " + str(y))
 
+		
+
+
+
 if __name__ == '__main__':
-    rospy.init_node('waypoint_goal')
-    try:
-        waypoint_goal()
-        os.system("rosnode kill -a")
-    except rospy.ROSInterruptException:
-        print "Keyboard Interrupt"
+	rospy.init_node('timeout_goal') 
+       
+        try:
+		print("TIME OUT SIMULATION")
+        	waypoint_goal()
+		go() # runs "bag2csv.py" for data export
+        	os.system("rosnode kill -a")
+	#	os.system("^C")
+    	except rospy.ROSInterruptException:
+        	print "Keyboard Interrupt"
+    	except Exception:
+		go()     # runs "bag2csv.py" for data export 
+		os.system("rosnode kill -a")
+		os.system("^C")
+	
+

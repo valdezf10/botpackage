@@ -53,9 +53,9 @@ find_package(Boost REQUIRED COMPONENTS system)
 # )
 
 # Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   probabilityservice.srv)
+# add_service_files(
+#   FILES
+#   probabilityservice.srv)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -160,10 +160,11 @@ install(DIRECTORY
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
  install(PROGRAMS
-  scripts/randommapclient.py
-  scripts/randommap_node.py
-  scripts/waypointgoal.py
+  scripts/bag2csv.py
+  scripts/randommap.py
+  scripts/waypoint_timeout.py
   scripts/findcoords.py
+  scripts/Main_Director.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

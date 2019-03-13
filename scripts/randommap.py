@@ -40,9 +40,16 @@ def randommap(prob):
     tree.write(inputxml[:-4] + 'random.sdf')
     return seed
 
-if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        prob = float(sys.argv[1])
+def mainProg(val):
+ #   if len(sys.argv) == 2:
+  #      prob = float(sys.argv[1])
+   # else:
+    #    prob = 100
+    #print(randommap(prob))
+    if val <= 100 and val >=0:
+        prob = val
     else:
         prob = 100
     print(randommap(prob))
+
+
