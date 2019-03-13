@@ -82,23 +82,42 @@ def go():
     else:
         writeheader = True
 
-    result, endtimes = resultdata(bag.read_messages('/move_base/result'))
-    odom = np.array(odomdata(bag.read_messages(
-        '/odom'), endtimes))[:len(result)]
-    goal = goaldata(bag.read_messages('/move_base/goal'))[:len(result)]
-    avgvel = odom/result
-    stdwpt = odom/goal
-    # change to 'a' for append
-    with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile:
-        filewriter = csv.writer(csvfile, delimiter=',')
-        if writeheader:
-            filewriter.writerow(headerrow)
-        # TODO: Jonny add env variables for lidar and planner
-        filewriter.writerows(np.column_stack(
-            (odom, goal, result, avgvel, stdwpt)))
-    bag.close()
-    print "Done reading bag file."
+	#add header if file is empty
+	writeheader = False
+	headerrow = ["Odom Distance (m)","Goal Distance (m)","Time to waypoint (s)","Average Velocity Over Waypoint (m/s)","Standardized Waypoint Deviation (m/m)","Lidar Range", "Lidar Rate","IMU Rate","Planner", "Door Probability"]
+	if os.path.isfile(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv"):
+		if os.stat(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv").st_size == 0:
+			writeheader = True
+	else:
+		writeheader = True
 
+	result,endtimes = resultdata(bag.read_messages('/move_base/result'))
+	odom = np.array(odomdata(bag.read_messages('/odom'), endtimes))[:len(result)]
+	goal = goaldata(bag.read_messages('/move_base/goal'))[:len(result)]
+	avgvel = odom/result
+	stdwpt = odom/goal
+	#tested with variables, unsure what will happen if they are unset
+	try:
+		lidarrange =	[os.environ['LASER_RANGE_VAL']] * len(result)
+		lidarrate = 	[os.environ['LASER_UPDATE_RATE']] * len(result)
+		imurate = 		[os.environ['IMU_UPDATE_RATE']] * len(result)
+		planner = 		[os.environ['PLANNER']] * len(result)
+		door =			[os.environ['DOOR_PROB']] * len(result)
+	except KeyError:
+		lidarrange =	[""] * len(result)
+		lidarrate = 	[""] * len(result)
+		imurate = 		[""] * len(result)
+		planner = 		[""] * len(result)
+		door = 			[""] * len(result)
+		print("Keys not set correctly")
+
+	with open(os.path.dirname(os.path.realpath(__file__))[:-8] + "/csv/result.csv", 'a') as csvfile: #change to 'a' for append
+		filewriter = csv.writer(csvfile, delimiter = ',')
+		if writeheader:
+			filewriter.writerow(headerrow)	
+		filewriter.writerows(np.column_stack((odom,goal,result,avgvel,stdwpt,lidarrange,lidarrate,imurate,planner, door)))
+	bag.close()
+	print "Done reading bag file."
 
 if __name__ == "__main__":
     go()
