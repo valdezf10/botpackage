@@ -10,7 +10,7 @@ import csv
 def randomcoords():    
     ### generate random waypoints ###
     inputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "coords.csv"
-    outputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "waypointset2.csv"
+    outputcoords = os.path.dirname(os.path.realpath(__file__))[:-7] + "waypointset.csv"
     with open(inputcoords, 'rb') as csvfile:
         creader = csv.reader(csvfile)
         allcoords= list(creader)
