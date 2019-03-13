@@ -7,9 +7,9 @@
   
 
   <xacro:property name="laser_range_val" value="$(env LASER_RANGE_VAL)"/>
-  <xacro:property name="laser_update_rate" value="$(env LASER_UPDATE_RATE)"/>
-  <xacro:property name="imu_update_rate" value="$(env IMU_UPDATE_RATE)"/>
-  
+  <xacro:property name="laser_noise_stddev" value="$(env LASER_NOISE_STDDEV)"/>
+  <xacro:property name="imu_gyro_noise_stddev" value="$(env IMU_GYRO_NOISE_STDDEV)"/>
+  <xacro:property name="imu_accel_noise_stddev" value="$(env IMU_ACCEL_NOISE_STDDEV)"/>
 
 
 
@@ -104,13 +104,13 @@
           <type>gaussian</type>
           <rate>
             <mean>0.0</mean>
-            <stddev>2e-4</stddev>
+            <stddev>${imu_gyro_noise_stddev}</stddev>
             <bias_mean>0.0000075</bias_mean>
             <bias_stddev>0.0000008</bias_stddev>
           </rate>
           <accel>
             <mean>0.0</mean>
-            <stddev>1.7e-2</stddev>
+            <stddev>${imu_accel_noise_stddev}</stddev>
             <bias_mean>0.1</bias_mean>
             <bias_stddev>0.001</bias_stddev>
           </accel>
@@ -142,7 +142,7 @@
         <noise>
           <type>gaussian</type>
           <mean>0.0</mean>
-          <stddev>0.01</stddev>
+          <stddev>${laser_noise_stddev}</stddev>
         </noise>
       </ray>
       <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">

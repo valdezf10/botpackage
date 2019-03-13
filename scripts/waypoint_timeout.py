@@ -7,6 +7,7 @@ import actionlib
 import csv
 import os
 import time
+from bag2csv import go
 
 #move_base_msgs
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
@@ -66,11 +67,13 @@ if __name__ == '__main__':
         try:
 		print("TIME OUT SIMULATION")
         	waypoint_goal()
+		go() # runs "bag2csv.py" for data export
         	os.system("rosnode kill -a")
 	#	os.system("^C")
     	except rospy.ROSInterruptException:
         	print "Keyboard Interrupt"
-    	except Exception: 
+    	except Exception:
+		go()     # runs "bag2csv.py" for data export 
 		os.system("rosnode kill -a")
 		os.system("^C")
 	
