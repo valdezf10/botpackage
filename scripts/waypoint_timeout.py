@@ -59,7 +59,8 @@ if __name__ == '__main__':
         os.system("rosnode kill -a")
     except rospy.ROSInterruptException:
         print "Keyboard Interrupt"
-    except Exception:
+    except Exception as e:
+        print("Exception in waypoint timeout:\n"+e)
         bag2csv.go()     # runs "bag2csv.py" for data export
         os.system("rosnode kill -a")
         os.system("^C")
