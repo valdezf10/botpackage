@@ -12,11 +12,11 @@ def randomcoords():
     inputcoords = os.path.dirname(os.path.realpath(__file__))[
         :-7] + "coords.csv"
     outputcoords = os.path.dirname(os.path.realpath(__file__))[
-        :-7] + "waypointset.csv"
+        :-7] + "waypointset5.csv"
     with open(inputcoords, 'rb') as csvfile:
         creader = csv.reader(csvfile)
         allcoords = list(creader)
-    newcoords = random.sample(allcoords, 10)  # change 10 at some point
+    newcoords = random.sample(allcoords, 5)  # change 10 at some point
 
     with open(outputcoords, 'w') as csvfile:
         cwriter = csv.writer(csvfile)
