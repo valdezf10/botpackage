@@ -1,0 +1,6 @@
+*.bag
+*.csv
+csv/
+bag/
+*.swp
+*.pyc

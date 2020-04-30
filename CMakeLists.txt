@@ -8,7 +8,6 @@ project(botpackage)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  message_generation
   std_msgs
   rospy
 )
@@ -54,22 +53,21 @@ find_package(Boost REQUIRED COMPONENTS system)
 # )
 
 # Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   probabilityservice.srv)
+# add_service_files(
+#   FILES
+#   probabilityservice.srv)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
 #   FILES
-#   Action1.action
-#   Action2.action
+#   newgoal.action
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
- )
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,7 +101,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES 252botpackage
-#  CATKIN_DEPENDS rospy std_msgs
+  CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -162,8 +160,11 @@ install(DIRECTORY
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
  install(PROGRAMS
-  scripts/randommapclient.py
-  scripts/randommap_node.py
+  scripts/bag2csv.py
+  scripts/randommap.py
+  scripts/waypoint_timeout.py
+  scripts/findcoords.py
+  scripts/Main_Director.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
